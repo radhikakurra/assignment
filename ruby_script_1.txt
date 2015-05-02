@@ -1,0 +1,58 @@
+#To transcode using ffmpeggem
+#install Ruby193
+#install ffmpeg and edit PATH with ffmpeg bin file location
+#install streamio-ffmpeg
+
+
+require 'streamio-ffmpeg'
+
+movie = FFMPEG::Movie.new("Bunny.flv")
+
+options = {video_codec: "h264", resolution: "640x360", audio_codec: "aac"}
+
+movie.transcode("transcoded.mp4", options)
+
+movie.screenshot("thumbnail1.jpg", seek_time: 14, resolution: '320x180')
+
+movie.screenshot("thumbnail2.jpg", seek_time: 16, resolution: '320x180')
+
+movie.screenshot("thumbnail3.jpg", seek_time: 24, resolution: '320x180')
+
+movie.screenshot("thumbnail4.jpg", seek_time: 88, resolution: '320x180')
+
+movie.screenshot("thumbnail5.jpg", seek_time: 119, resolution: '320x180')
+
+#To Upload to amazonaws
+#install aws-sdk-v1
+
+require 'aws-sdk-v1'
+
+AWS.config(access_key_id: 'ACCESSKEYID', secret_access_key : 'SECRETACCESSKEY', region: 'ap-southeast-1')
+
+bucket_name = 'vikiassignment'
+
+s3 = AWS::S3.new
+
+file_name = 'C:/Users/rk/thumbnail1.jpg'
+
+s3.buckets[bucket_name].objects['thumbnail.jpg'].write(:file=>file_name)
+
+file_name = 'C:/Users/rk/thumbnail2.jpg'
+
+s3.buckets[bucket_name].objects['thumbnail2.jpg'].write(:file=>file_name)
+
+file_name = 'C:/Users/rk/thumbnail3.jpg'
+
+s3.buckets[bucket_name].objects['thumbnail3.jpg'].write(:file=>file_name)
+
+file_name = 'C:/Users/rk/thumbnail4.jpg'
+
+s3.buckets[bucket_name].objects['thumbnail4.jpg'].write(:file=>file_name)
+
+file_name = 'C:/Users/rk/thumbnail5.jpg'
+
+s3.buckets[bucket_name].objects['thumbnail5.jpg'].write(:file=>file_name)
+
+file_name = 'C:/Users/rk/transcoded.mp4'
+
+s3.buckets[bucket_name].objects['transcoded.mp4'].write(:file=>file_name)
